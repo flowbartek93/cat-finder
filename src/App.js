@@ -27,7 +27,7 @@ function App() {
           <Search />
         </Route>
 
-        <Route path="/cats/:name" children={<SinglePageCat />} />
+        <Route exact path="/cats/:name" children={<SinglePageCat />} />
       </Switch>
     </Router>
   );

@@ -14,11 +14,11 @@ const SinglePageCat = () => {
   const [loading, setLoading] = useState(true);
   const [cat, setCat] = useState({});
 
-  const fetchSingleCat = async (query) => {
+  const fetchSingleCat = async query => {
     const response = await fetch(`${searchById}${name}`, {
       headers: {
-        "x-api-key": apiKey,
-      },
+        "x-api-key": apiKey
+      }
     });
     const data = await response.json();
 
@@ -28,7 +28,7 @@ const SinglePageCat = () => {
     } else if (data.length === 0) {
       console.log(cats);
 
-      let selectedCat = await cats.filter((cat) => cat.id === name);
+      let selectedCat = await cats.filter(cat => cat.id === name);
 
       console.log(selectedCat);
       setCat(selectedCat[0]);
@@ -39,7 +39,7 @@ const SinglePageCat = () => {
 
   useEffect(() => {
     fetchSingleCat(name);
-  }, [name]);
+  }, []);
 
   if (loading) {
     return (
@@ -49,32 +49,16 @@ const SinglePageCat = () => {
     );
   }
 
-  const {
-    id,
-    reference_image_id,
-    adaptability,
-    energy_level,
-    affection_level,
-    dog_friendly,
-    child_friendly,
-    description,
-    image,
-  } = cat;
+  const { id, reference_image_id, adaptability, energy_level, affection_level, dog_friendly, child_friendly, description, image } = cat;
 
   return (
     <div className="container">
       <Header />
       {console.log(cat)}
       <div className="single-cat-container">
-        <h1>My name is: {id}</h1>
+        <h1>My name is: {id || console.log("brak id")}</h1>
         <div className="single-cat-info">
-          <img
-            className="single-cat-image"
-            src={`https://cdn2.thecatapi.com/images/${
-              reference_image_id || image.id
-            }.jpg`}
-            alt="image"
-          />
+          <img className="single-cat-image" src={`https://cdn2.thecatapi.com/images/${reference_image_id || image.id}.jpg`} alt="image" />
           <div className="cat-info-parameters">
             <p className="cat-info">Adaptability: {adaptability} </p>
             <p className="cat-info">Affection:{affection_level} </p>

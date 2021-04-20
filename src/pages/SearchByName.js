@@ -4,7 +4,7 @@ import Header from "../header";
 import SingleCat from "../SingleCat";
 const SearchByName = () => {
   const ref = useRef();
-  const { cats, AllCats, loading, setPage, nextPage, prevPage, page, searchCat } = useGlobalContext();
+  const { cats, AllCats, loading, setPage, nextPage, prevPage, page, searchCat, searchedCats } = useGlobalContext();
 
   const handleChange = () => {
     let searchTerm = ref.current.value;
@@ -12,6 +12,7 @@ const SearchByName = () => {
     if (searchTerm) {
       searchCat(searchTerm);
     } else {
+      return;
     }
   };
 
@@ -32,7 +33,7 @@ const SearchByName = () => {
       <div className="container">
         <section className="cats">
           {!loading &&
-            cats.map((cat, index) => {
+            searchedCats.map((cat, index) => {
               const { id, name, image, description, adaptability, affection_level, child_friendly, dog_friendly, hairless, reference_image_id } = cat;
 
               return <SingleCat name={id} key={index} image={(image && image.url) || `https://cdn2.thecatapi.com/images/${reference_image_id}.jpg`} catRace={name} desc={description} adaptability={adaptability} affection_level={affection_level} child_friendly={child_friendly} dog_friendly={dog_friendly} hairless={hairless} />;

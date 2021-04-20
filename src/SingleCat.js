@@ -1,16 +1,6 @@
 import { Link } from "react-router-dom";
 
-function SingleCat({
-  name,
-  image,
-  catRace,
-  desc,
-  adaptability,
-  affection_level,
-  child_friendly,
-  dog_friendly,
-  hairless,
-}) {
+function SingleCat({ name, image, catRace, desc, adaptability, affection_level, child_friendly, dog_friendly, hairless }) {
   return (
     <>
       <div className="single-cat">
@@ -20,7 +10,7 @@ function SingleCat({
         <p>My race is : {catRace}</p>
         <p>{desc}</p>
 
-        <Link to={`cats/${name}`} className="adopt-link">
+        <Link to={`/cats/${name}`} className="adopt-link">
           <button className="btn">Adopt</button>
         </Link>
       </div>

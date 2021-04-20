@@ -10,7 +10,8 @@ const apiKey = process.env.REACT_APP_API_KEY;
 const initialState = {
   page: 0,
   AllCats: [],
-  cats: []
+  cats: [],
+  searchedCats: []
 };
 
 const AppProvider = ({ children }) => {

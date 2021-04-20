@@ -10,9 +10,6 @@ const reducer = (state, action) => {
   }
 
   if (action.type === "SEARCH_BY_NAME") {
-    console.log(action.payload);
-    console.log(state);
-
     const allcats = state.AllCats.flat();
     const searchedCats = allcats.filter(cat => {
       return cat.name.includes(action.payload);
@@ -20,7 +17,7 @@ const reducer = (state, action) => {
 
     return {
       ...state,
-      cats: searchedCats
+      searchedCats: searchedCats
     };
   }
 

@@ -7,12 +7,21 @@ const searchById = "https://api.thecatapi.com/v1/breeds/search?q=";
 
 const apiKey = process.env.REACT_APP_API_KEY;
 const SinglePageCat = () => {
+  const { AllCats, fetchCats } = useGlobalContext();
   const { name } = useParams();
-
-  const { cats } = useGlobalContext();
-
-  const [loading, setLoading] = useState(true);
   const [cat, setCat] = useState({});
+  const [ready, setReady] = useState(false);
+
+  console.log(AllCats);
+
+  useEffect(() => {
+    if (!AllCats) {
+      setReady(false);
+    } else {
+      setReady(true);
+      fetchSingleCat(name);
+    }
+  });
 
   const fetchSingleCat = async query => {
     const response = await fetch(`${searchById}${name}`, {
@@ -24,41 +33,29 @@ const SinglePageCat = () => {
 
     if (data.length > 0) {
       setCat(data[0]);
-      setLoading(false);
+      console.log(cat);
     } else if (data.length === 0) {
-      console.log(cats);
+      //Dziwny problem z api, czasem zwraca kota, czasem tablica jest zupełnie pusta, dlatego poniższy kod sciąga dane ze stanu
+      console.log("wyjscie awaryjne");
 
-      let selectedCat = await cats.filter(cat => cat.id === name);
-
-      console.log(selectedCat);
-      setCat(selectedCat[0]);
-      console.log("blad api");
-      setLoading(false);
+      if (ready) {
+        const arrayFromState = AllCats.flat().filter(item => item.id === name);
+        setCat(arrayFromState[0]);
+        console.log(arrayFromState);
+      }
     }
   };
-
-  useEffect(() => {
-    fetchSingleCat(name);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="single-cat-container">
-        <div className="loading"></div>;
-      </div>
-    );
-  }
 
   const { id, reference_image_id, adaptability, energy_level, affection_level, dog_friendly, child_friendly, description, image } = cat;
 
   return (
     <div className="container">
       <Header />
-      {console.log(cat)}
+
       <div className="single-cat-container">
         <h1>My name is: {id || console.log("brak id")}</h1>
         <div className="single-cat-info">
-          <img className="single-cat-image" src={`https://cdn2.thecatapi.com/images/${reference_image_id || image.id}.jpg`} alt="image" />
+          <img className="single-cat-image" src={(image && image.url) || `https://cdn2.thecatapi.com/images/${reference_image_id}.jpg`} alt="image" />
           <div className="cat-info-parameters">
             <p className="cat-info">Adaptability: {adaptability} </p>
             <p className="cat-info">Affection:{affection_level} </p>

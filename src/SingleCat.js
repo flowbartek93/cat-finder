@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
-
+import smallLoading from "./images/Ellipsis-2s-124px.svg";
 function SingleCat({ name, image, catRace, desc, adaptability, affection_level, child_friendly, dog_friendly, hairless }) {
   return (
     <>
       <div className="single-cat">
         <div className="img-container">
-          <img src={image} alt="kot" />
+          <img
+            onLoad={e => {
+              e.target.src = image;
+            }}
+            src={smallLoading}
+            alt="kot"
+          />
         </div>
         <p>My race is : {catRace}</p>
         <p>{desc}</p>

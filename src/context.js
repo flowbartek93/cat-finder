@@ -7,15 +7,8 @@ const searchUrl = "https://api.thecatapi.com/v1/breeds/search?q=";
 const mainUrl = "https://api.thecatapi.com/v1/breeds";
 const apiKey = process.env.REACT_APP_API_KEY;
 
-const initialState = {
-  page: 0,
-  AllCats: [],
-  cats: [],
-  searchedCats: []
-};
-
 const AppProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, {});
   const [loading, setLoading] = useState(true);
 
   const fetchCats = async query => {
@@ -43,6 +36,7 @@ const AppProvider = ({ children }) => {
     });
 
     dispatch({ type: "DISPLAY", payload: newArray });
+
     setLoading(false);
   };
 

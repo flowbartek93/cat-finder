@@ -1,11 +1,9 @@
 const reducer = (state, action) => {
   if (action.type === "DISPLAY") {
-    console.log(action.payload);
-
+    state.AllCats = action.payload;
+    state.cats = action.payload[0];
     return {
-      ...state,
-      cats: action.payload[0],
-      AllCats: action.payload
+      ...state
     };
   }
 

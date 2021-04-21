@@ -39,7 +39,6 @@ const AppProvider = ({ children }) => {
 
     const newArray = Array.from({ length: pages }, (_, index) => {
       const start = index * itemPerPage;
-
       return catBreeds.slice(start, start + itemPerPage);
     });
 

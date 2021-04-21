@@ -11,14 +11,15 @@ const Search = () => {
         <Link to={"/search/search-by-name"}>
           <div className="search search-by-name">
             <p>Search by Cat name</p>
-            <i className="fas fa-list-ul"></i>
+            <i className="fas fa-search"></i>
           </div>
         </Link>
 
         <Link to={"/search/search-by-values"}>
           <div className="search search-by-values">
             <p>Specific Search</p>
-            <i className="fas fa-search"></i>
+
+            <i className="fas fa-list-ul"></i>
           </div>
         </Link>
       </div>

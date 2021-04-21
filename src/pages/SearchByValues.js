@@ -1,14 +1,52 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../header";
+import { useGlobalContext } from "../context";
 
 const SearchByValues = () => {
+  const [radioValues, setRadioValues] = useState("");
+
+  const { AllCats } = useGlobalContext();
+
+  console.log(AllCats);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const radioElements = e.target.elements;
+
+    setRadioValues({
+      adaptability: parseInt(radioElements.adaptability.value),
+      affection: parseInt(radioElements.affection.value),
+      dogfriendly: parseInt(radioElements.dogfriendly.value),
+      intelligence: parseInt(radioElements.intelligence.value),
+      hairless: parseInt(radioElements.hairless.value)
+    });
+  };
+
+  const spiteOutCats = () => {
+    const flatArray = AllCats.flat();
+    const customSearchArray = flatArray.filter(({ adaptability, affection_level, dog_friendly, intelligence, hairless }) => {
+      return adaptability === radioValues.adaptability && affection_level === radioValues.affection && dog_friendly === radioValues.dogfriendly;
+    });
+    console.log(customSearchArray);
+  };
+
+  useEffect(() => {
+    if (AllCats) {
+      spiteOutCats();
+    } else {
+      console.log("haah");
+    }
+  }, [AllCats, radioValues]);
+
   return (
     <>
       <Header />
-      <form className="custom-search-inputs">
+
+      <form onSubmit={handleSubmit} className="custom-search-inputs">
+        <h1>Please select your preferences:</h1>
         <div>
           <p className="custom-search-title">Adaptability level</p>
-          <div className="radio-inputs">
+          <div className="radio-inputs adaptability">
             {" "}
             <label className="radio">
               <input type="radio" value="1" name="adaptability" />1<span></span>
@@ -31,7 +69,7 @@ const SearchByValues = () => {
         <div>
           {" "}
           <p className="custom-search-title">How affectionate you want your cat to be</p>
-          <div className="radio-inputs">
+          <div className="radio-inputs affection">
             {" "}
             <label className="radio">
               <input type="radio" value="1" name="affection" />1<span></span>
@@ -54,21 +92,21 @@ const SearchByValues = () => {
         <div>
           <p className="custom-search-title">Dog friendly level</p>
 
-          <div className="radio-inputs">
+          <div className="radio-inputs dogfriendly">
             <label className="radio">
-              <input type="radio" value="1" name="dog-friendly" />1<span></span>
+              <input type="radio" value="1" name="dogfriendly" />1<span></span>
             </label>
             <label className="radio">
-              <input type="radio" value="2" name="dog-friendly" />2<span></span>
+              <input type="radio" value="2" name="dogfriendly" />2<span></span>
             </label>
             <label className="radio">
-              <input type="radio" value="3" name="dog-friendly" />3<span></span>
+              <input type="radio" value="3" name="dogfriendly" />3<span></span>
             </label>
             <label className="radio">
-              <input type="radio" value="4" name="dog-friendly" />4<span></span>
+              <input type="radio" value="4" name="dogfriendly" />4<span></span>
             </label>
             <label className="radio">
-              <input type="radio" value="5" name="dog-friendly" />5<span></span>
+              <input type="radio" value="5" name="dogfriendly" />5<span></span>
             </label>
           </div>
         </div>
@@ -76,7 +114,7 @@ const SearchByValues = () => {
         <div>
           <p className="custom-search-title">Intelligence</p>
 
-          <div className="radio-inputs">
+          <div className="radio-inputs intelligence">
             <label className="radio">
               <input type="radio" value="1" name="intelligence" />1<span></span>
             </label>
@@ -98,17 +136,21 @@ const SearchByValues = () => {
         <div>
           <p className="custom-search-title">Hairless or not ?</p>
 
-          <div className="radio-inputs">
+          <div className="radio-inputs hairless">
             <label className="radio">
-              <input type="radio" value="1" name="intelligence" />
+              <input type="radio" value="1" name="hairless" />
               Yes<span></span>
             </label>
             <label className="radio">
-              <input type="radio" value="2" name="intelligence" />
+              <input type="radio" value="0" name="hairless" />
               No<span></span>
             </label>
           </div>
         </div>
+
+        <button type="submit" className="filter-button">
+          Filter
+        </button>
       </form>
     </>
   );

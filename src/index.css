@@ -224,6 +224,23 @@ label {
   transition: 0.3s ease-in-out 0s;
 }
 
+.filter-button {
+  margin: 50px;
+  width: 100px;
+  height: 50px;
+  outline: 0;
+  background-color: #a18375;
+  color: white;
+  border: 2px solid #6b544a;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 1.3rem;
+}
+
+.filter-button:hover {
+  background-color: #6b544a;
+}
+
 .radio input[type="radio"]:checked ~ span:after {
   transform: translate(-50%, -50%) scale(1);
 }

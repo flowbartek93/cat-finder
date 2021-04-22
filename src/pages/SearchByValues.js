@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Header from "../header";
+import SingleCat from "../SingleCat";
 import { useGlobalContext } from "../context";
 
 const SearchByValues = () => {
   const [radioValues, setRadioValues] = useState("");
 
-  const { AllCats } = useGlobalContext();
+  const { AllCats, searchCatsByValues, searchedValues } = useGlobalContext();
 
   console.log(AllCats);
 
@@ -22,22 +23,14 @@ const SearchByValues = () => {
     });
   };
 
-  const spiteOutCats = () => {
-    const flatArray = AllCats.flat();
-    const customSearchArray = flatArray.filter(({ adaptability, affection_level, dog_friendly, intelligence, hairless }) => {
-      return adaptability === radioValues.adaptability && affection_level === radioValues.affection && dog_friendly === radioValues.dogfriendly;
-    });
-    console.log(customSearchArray);
-  };
-
   useEffect(() => {
     if (AllCats) {
-      spiteOutCats();
+      searchCatsByValues(radioValues);
     } else {
-      console.log("haah");
+      console.log("All cats array not detected");
     }
   }, [AllCats, radioValues]);
-
+  console.log(searchedValues);
   return (
     <>
       <Header />
@@ -151,6 +144,20 @@ const SearchByValues = () => {
         <button type="submit" className="filter-button">
           Filter
         </button>
+
+        <div className="container">
+          <section className="cats">
+            {searchedValues ? (
+              searchedValues.map((cat, index) => {
+                const { id, name, image, description, adaptability, affection_level, child_friendly, dog_friendly, hairless, reference_image_id } = cat;
+
+                return <SingleCat name={id} key={index} image={(image && image.url) || `https://cdn2.thecatapi.com/images/${reference_image_id}.jpg`} catRace={name} desc={description} adaptability={adaptability} affection_level={affection_level} child_friendly={child_friendly} dog_friendly={dog_friendly} hairless={hairless} />;
+              })
+            ) : (
+              <p className="search-field-nodata">No cats found, please insert some data to search field</p>
+            )}
+          </section>
+        </div>
       </form>
     </>
   );

@@ -1,3 +1,5 @@
+import { act } from "react-dom/test-utils";
+
 const reducer = (state, action) => {
   if (action.type === "DISPLAY") {
     state.AllCats = action.payload;
@@ -9,13 +11,33 @@ const reducer = (state, action) => {
 
   if (action.type === "SEARCH_BY_NAME") {
     const allcats = state.AllCats.flat();
-    const searchedCats = allcats.filter(cat => {
-      return cat.name.includes(action.payload);
-    });
+
+    let newArray = [];
+
+    if (action.payload !== "") {
+      console.log("reducer");
+      newArray = allcats.filter(cat => {
+        return cat.name.includes(action.payload);
+      });
+    }
 
     return {
       ...state,
-      searchedCats: searchedCats
+      searchedCats: newArray
+    };
+  }
+
+  if (action.type === "SEARCH_BY_VALUES") {
+    let objValues = action.payload;
+    const flatArray = state.AllCats.flat();
+
+    const customSearchArray = flatArray.filter(({ adaptability, affection_level, dog_friendly, intelligence, hairless }) => {
+      return adaptability === objValues.adaptability && affection_level === objValues.affection && dog_friendly === objValues.dogfriendly;
+    });
+    console.log(customSearchArray);
+    return {
+      ...state,
+      searchedValues: customSearchArray
     };
   }
 

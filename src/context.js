@@ -57,11 +57,15 @@ const AppProvider = ({ children }) => {
     dispatch({ type: "SEARCH_BY_NAME", payload: term });
   };
 
+  const searchCatsByValues = values => {
+    dispatch({ type: "SEARCH_BY_VALUES", payload: values });
+  };
+
   useEffect(() => {
     fetchCats();
   }, []);
 
-  return <AppContext.Provider value={{ ...state, loading, setPage, fetchCats, nextPage, prevPage, searchCat }}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{ ...state, loading, setPage, fetchCats, nextPage, prevPage, searchCat, searchCatsByValues }}>{children}</AppContext.Provider>;
 };
 
 export const useGlobalContext = () => {

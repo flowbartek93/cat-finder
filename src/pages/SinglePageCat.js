@@ -3,23 +3,22 @@ import Header from "../header";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Loading from "../Loading";
+import smallLoading from "../images/Ellipsis-2s-124px.svg";
 const searchById = "https://api.thecatapi.com/v1/breeds/search?q=";
 
 const apiKey = process.env.REACT_APP_API_KEY;
 const SinglePageCat = () => {
-  const { AllCats, fetchCats } = useGlobalContext();
+  const { AllCats } = useGlobalContext();
   const { name } = useParams();
   const [cat, setCat] = useState({});
-  const [ready, setReady] = useState(false);
-
-  console.log(AllCats);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!AllCats) {
-      setReady(false);
-    } else {
-      setReady(true);
+    if (AllCats) {
       fetchSingleCat(name);
+      setLoading(false);
+    } else {
+      setLoading(true);
     }
   }, [AllCats]);
 
@@ -37,11 +36,9 @@ const SinglePageCat = () => {
       //Dziwny problem z api, czasem zwraca kota, czasem tablica jest zupełnie pusta, dlatego poniższy kod sciąga dane ze stanu
       console.log("wyjscie awaryjne");
 
-      if (ready) {
-        const arrayFromState = AllCats.flat().filter(item => item.id === name);
-        setCat(arrayFromState[0]);
-        console.log(arrayFromState);
-      }
+      const arrayFromState = AllCats.flat().filter(item => item.id === name);
+      setCat(arrayFromState[0]);
+      console.log(arrayFromState);
     }
   };
 
@@ -51,11 +48,11 @@ const SinglePageCat = () => {
     <div className="container">
       <Header />
 
-      {ready ? (
+      {!loading ? (
         <div className="single-cat-container">
           <h1>My name is: {id || console.log("brak id")}</h1>
           <div className="single-cat-info">
-            <img className="single-cat-image" src={(image && image.url) || `https://cdn2.thecatapi.com/images/${reference_image_id}.jpg`} alt="image" />
+            <img className="single-cat-image" src={(image && image.url) || `https://cdn2.thecatapi.com/images/${reference_image_id}.jpg`} alt="kot" />
             <div className="cat-info-parameters">
               <p className="cat-info">Adaptability: {adaptability} </p>
               <p className="cat-info">Affection:{affection_level} </p>
@@ -65,6 +62,7 @@ const SinglePageCat = () => {
             </div>
           </div>
           <p className="description">{description}</p>
+          {console.log((image && image.url) || `https://cdn2.thecatapi.com/images/${reference_image_id}.jpg`)}
         </div>
       ) : (
         <Loading />

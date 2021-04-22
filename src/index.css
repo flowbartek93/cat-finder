@@ -314,6 +314,15 @@ label {
   box-shadow: 1px 2px 15px -1px #000000;
   transition: 0.2s ease;
 }
+.search-field-nodata {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 500;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+}
 
 .search p {
   text-align: center;

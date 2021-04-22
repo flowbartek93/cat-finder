@@ -40,9 +40,10 @@ const AppProvider = ({ children }) => {
     setLoading(false);
   };
 
+  console.log(state);
+
   const setPage = e => {
     let choosenPage = parseInt(e.target.textContent);
-    console.log(choosenPage);
 
     dispatch({ type: "SET_PAGE_INDEX", payload: choosenPage });
   };

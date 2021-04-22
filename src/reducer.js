@@ -31,13 +31,11 @@ const reducer = (state, action) => {
     let objValues = action.payload;
     const flatArray = state.AllCats.flat();
 
-    const customSearchArray = flatArray.filter(({ adaptability, affection_level, dog_friendly, intelligence, hairless }) => {
-      return adaptability === objValues.adaptability && affection_level === objValues.affection && dog_friendly === objValues.dogfriendly;
-    });
-    console.log(customSearchArray);
     return {
       ...state,
-      searchedValues: customSearchArray
+      searchedValues: flatArray.filter(({ adaptability, affection_level, dog_friendly, intelligence, hairless }) => {
+        return adaptability === objValues.adaptability && affection_level === objValues.affection && dog_friendly === objValues.dogfriendly;
+      })
     };
   }
 

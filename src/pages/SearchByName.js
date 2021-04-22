@@ -17,6 +17,7 @@ const SearchByName = () => {
       searchCat(""); //search field is empty, pass empty string to reducer
     }
   };
+  console.log(searchedCats);
 
   useEffect(() => {
     if (searchedCats) {
